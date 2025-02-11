@@ -1,43 +1,47 @@
 #include<bits/stdc++.h>
 using namespace std;
-vector<int> spiral_print(vector<vector<int>> nums){
+vector<int> spiral_print(vector<vector<int>> &matrix){
     vector<int> ans;
-    int rowcount=nums.size();
-    int colcount=nums[0].size();
+    int m=matrix.size();
+    int n=matrix[0].size();
+    int total=n*m;
+    
     int startingRow=0;
     int startingCol=0;
-    int endingRow=rowcount-1;
-    int endingCol=colcount-1;
-    int total=rowcount*colcount;
+    int endingRow=m-1;
+    int endingCol=n-1;
+    
     int count=0;
     while(count<total){
-       for(int i=startingCol;i<=endingCol;i++)
+       for(int i=startingCol;i<=endingCol && count<total;i++)
        {
-          ans.push_back(nums[startingRow][i]);
+          ans.push_back(matrix[startingRow][i]);
           count++;
-          return ans;
+          
       }
        startingRow++;
-       for(int i=startingRow;i<=endingRow;i++)
+       for(int i=startingRow;i<=endingRow && count<total;i++)
        {
-           ans.push_back(nums[i][endingCol]);
-           endingCol--;
+           ans.push_back(matrix[i][endingCol]);
            count++;
+       }
+       endingCol--;
+       for(int i=endingCol;i>=startingCol && count<total;i--)
+       {
+          ans.push_back(matrix[endingRow][i]);
+          count++;
+       }
+       endingRow--;
 
-       }
-       for(int i=endingCol;i>=startingCol;i--)
+
+       for(int i=endingRow;i>=startingRow && count<total;i--)
        {
-          ans.push_back(nums[endingRow][i]);
-          endingRow--;
+          ans.push_back(matrix[i][startingCol]);
           count++;
        }
-       for(int i=endingRow;i>=startingRow;i--)
-       {
-          ans.push_back(nums[i][startingCol]);
-          startingCol++;
-          count++;
-       }
+       startingCol++;
     }
+    return ans;
 }
 int main()
 {
@@ -47,8 +51,8 @@ int main()
     {7,8,9}
   };
   vector<int> ans=spiral_print(nums);
-  for(auto i : ans) {
-    cout << i << " ";
+  for(int i=0;i<ans.size();i++)
+  {
+    cout<<ans[i]<<" ";
   }
-  cout << endl;
 }
